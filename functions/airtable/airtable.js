@@ -1,8 +1,9 @@
+const axios = require("axios")
 // IMPORT THE AIRTABLE.JS PACKAGE
 const Airtable = require('airtable');
 
 // SERVERLESS FUNCTION
-exports.handler = async (event, context, callback) => {
+exports.handler =  (event, context, callback) => {
   // pull the required enviroment variables from netlify UI
   const {API_BASE_ID, API_KEY} = process.env;
   // function formats and sends reponse back to the front-end
@@ -12,13 +13,21 @@ exports.handler = async (event, context, callback) => {
       body: JSON.stringify(body)
     })
   }
+  
+  // CONFIGURE AIRTABLE API
   Airtable.configure({
-    endpointUrl: `https://api.airtable.com/v0/${API_BASE_ID}/Clientes/recVLS4iOZLrFDrSn`,
     apiKey: API_KEY
   })
-  const base = Airtable.base(API_BASE_ID);
-  
-  let data = ['0']
 
-  send(data);
+  const base = Airtable.base(API_BASE_ID)
+
+  base('Clientes').select({
+    view: "BD"
+  }).firstPage((err, records) => {
+    if (err) { 
+      console.error('error :', err); 
+      send(err)
+    }
+    send(records)
+  });
 };
