@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [clients, setClients] = useState([])
+  const [muestreo, setMuestreo] = useState([])
   useEffect(() => {
     const fetchData = async () =>
       await (await fetch("/.netlify/functions/airtable/airtable.js")).json();
     fetchData().then( data => {
-      setClients(data)
+      setMuestreo(data)
     })
   }, [])
-  console.log(clients)
-  return (
+  return muestreo.length === 0 ? (<div><h1>Loading...</h1></div>) : (
     <div className="App">
-      <h1>Hello World!!!</h1>
+      <h1>Plan de Muestreo</h1>
       <ul>
-        {clients.map(client => <li key={client.id}><div>
-          <h2>{client.fields.Empresa}</h2>
-          <p>{client.fields.Direccion}</p>
+        {muestreo.map(muestra => <li key={muestra.ID}><div>
+          <h2>Cliente: {muestra.Cliente}</h2>
+          <p>Muestra: {muestra.Muestra}</p>
+          <p>Dias restantes: {muestra.DiasRestantes}</p>
         </div></li>)}
       </ul>
     </div>
