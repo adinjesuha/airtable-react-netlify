@@ -16,14 +16,9 @@ exports.handler = async (event, context, callback) => {
     endpointUrl: `https://api.airtable.com/v0/${API_BASE_ID}/Clientes/recVLS4iOZLrFDrSn`,
     apiKey: API_KEY
   })
-  var base = Airtable.base(API_BASE_ID);
-  const data = [];
-
-  /**
-    AIRTABLE REQUEST LOGIC GOES HERE, APPENDING TO DATA
-    REFERENCE YOUR BASE-SPECIFIC API FOR EXAMPLES OF
-    COMMON CRUD OPERATIONS
-  */
+  const base = Airtable.base(API_BASE_ID);
+  
+  let data = ['0']
 
   send(data);
 };
